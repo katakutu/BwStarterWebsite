@@ -1,0 +1,39 @@
+@import ../vars
+@import ~bulma/sass/utilities/mixins
+
+=selection
+  color: $white
+  background: $primary
+
+::selection
+  +selection
+
+::-moz-selection
+  +selection
+
+.logo
+  width: auto
+  height: 28px
+
+.navbar.has-shadow
+  .tabs
+    &:not(.is-boxed):not(.is-toggle)
+      > ul
+        border: 0
+      li
+        a
+          margin-bottom: 0
+          min-height: $navbar-height
+          border-bottom-color: transparent
+          &:hover
+            color: $primary
+            border-color: $primary
+        &.is-active
+          a
+            border-bottom-width: 2px
+            border-color: $primary
+
+aside.menu
+  padding: .75rem
+  border-right: 2px solid $grey-lighter
+

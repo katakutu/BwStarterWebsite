@@ -1,0 +1,7 @@
+api_platform:
+    title: 'BW Starter Website API'
+    description: 'API for the front-end web application'
+    version: 1.0.0-dev
+    enable_nelmio_api_doc: false
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
