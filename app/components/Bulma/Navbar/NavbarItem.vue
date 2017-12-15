@@ -21,7 +21,7 @@
         return !this.item.child ? null : this.item.child.items
       },
       toRoute () {
-        return this.item.page.fullRoute + (this.item.fragment ? ('#' + this.item.fragment) : '')
+        return this.item.page.route + (this.item.fragment ? ('#' + this.item.fragment) : '')
       }
     }
   }

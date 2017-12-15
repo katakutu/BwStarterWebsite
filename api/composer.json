@@ -8,6 +8,7 @@
         "api-platform/api-pack": "^1.0",
         "cocur/slugify": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "nelmio/cors-bundle": "^1.5",
         "symfony/console": "^3.4 || ^4.0",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^3.4 || ^4.0",

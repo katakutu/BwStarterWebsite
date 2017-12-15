@@ -10,10 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(itemOperations={
+ *     "get"={"method"="GET", "path"="/pages/{id}", "requirements"={"id"=".+"}},
+ *     "put"={"method"="PUT", "path"="/pages/{id}", "requirements"={"id"=".+"}},
+ *     "delete"={"method"="DELETE", "path"="/pages/{id}", "requirements"={"id"=".+"}}
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  * @ORM\EntityListeners({"\App\EntityListener\PageListener"})
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="route_unique",columns={"parent_id", "route"})})
  */
 class Page
 {
@@ -21,6 +24,7 @@ class Page
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @var int
      */
     private $id;
 
@@ -43,35 +47,43 @@ class Page
     private $components;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=false, unique=true)
+     * @Groups({"layout"})
      * @var null|string
      */
     private $route;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Page")
+     * @ORM\ManyToOne(targetEntity="Page", inversedBy="children")
      * @ORM\JoinColumn(nullable=true)
      * @var null|Page
      */
     private $parent;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Page", mappedBy="parent")
+     * @var Collection
+     */
+    private $children;
+
     public function __construct()
     {
         $this->components = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -121,6 +133,7 @@ class Page
      */
     public function setComponents(array $components): void
     {
+        $this->components = new ArrayCollection();
         foreach ($components as $component)
         {
             $this->addComponent($component);
@@ -150,7 +163,20 @@ class Page
      */
     public function setRoute(?string $route): void
     {
-        $this->route = $route;
+        if (null === $route) {
+            $fullRoute = null;
+        } else {
+            $routeParts = [$route];
+            $parent = $this;
+            while ($parent = $parent->getParent()) {
+                $routeParts[] = $parent->getRoute();
+            }
+            $cleanedParts = array_filter($routeParts, function($v){ return $v !== null; });
+            array_reverse($cleanedParts);
+            $fullRoute = '/' . join('/', $cleanedParts);
+        }
+
+        $this->route = $fullRoute;
     }
 
     /**
@@ -170,17 +196,32 @@ class Page
     }
 
     /**
-     * @Groups({"layout"})
-     * @return string
+     * @return Collection
      */
-    public function getFullRoute()
+    public function getChildren(): Collection
     {
-        $routeParts = [$this->getRoute()];
-        $parent = $this;
-        while ($parent = $parent->getParent()) {
-            $routeParts[] = $parent->getRoute();
+        return $this->children;
+    }
+
+    /**
+     * @param array $children
+     */
+    public function setChildren(array $children): void
+    {
+        $this->children = new ArrayCollection();
+        foreach ($children as $child)
+        {
+            $this->addChild($child);
         }
-        array_reverse($routeParts);
-        return '/' . join('/', array_filter($routeParts, function($v){ return $v !== null; }));
+    }
+
+    public function addChild(Page $child)
+    {
+        $this->children->add($child);
+    }
+
+    public function removeChild(Page $child)
+    {
+        $this->children->removeElement($child);
     }
 }

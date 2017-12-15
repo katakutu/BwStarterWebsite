@@ -46,7 +46,8 @@ module.exports = {
    * Plugins
    */
   plugins: [
-    { src: '~/plugins/Quill.js', ssr: false }
+    { src: '~/plugins/quill.js', ssr: false },
+    { src: '~/plugins/apiPage.js', ssr: true }
   ],
   /**
    * Modules
@@ -95,6 +96,13 @@ module.exports = {
    * Router
    */
   router: {
-    middleware: ['store-init-error-handler']
+    middleware: ['initErrorHandler'],
+    extendRoutes (routes) {
+      routes.push({
+        name: 'custom',
+        path: '*',
+        component: '~/pages/index.vue'
+      })
+    }
   }
 }

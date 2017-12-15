@@ -22,6 +22,7 @@
         </div>
       </div>
     </section>
+
   </div>
 </template>
 
@@ -40,7 +41,15 @@
     },
     head () {
       return {
-        title: 'Home Page'
+        title: this.api.title,
+        meta: [
+          { name: 'description', content: this.api.metaDescription }
+        ]
+      }
+    },
+    async asyncData ({ app, route }) {
+      return {
+        api: await app.$getPage({ route })
       }
     }
   }

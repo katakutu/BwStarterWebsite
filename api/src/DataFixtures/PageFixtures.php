@@ -30,11 +30,22 @@ class PageFixtures extends Fixture
         $manager->persist($nav);
 
         $page = $this->addPage(
-            'Home Page',
-            'Welcome to the BW Starter Website built with the best and latest frameworks. Front-end uses NuxtJS (VueJS) and Bulma. The API uses API Platform (Symfony 4).',
-            ''
-        );
+        'Home Page',
+        'Welcome to the BW Starter Website built with the best and latest frameworks. Front-end uses NuxtJS (VueJS) and Bulma. The API uses API Platform (Symfony 4).',
+        ''
+    );
         $this->addNavItem($nav, 'Home', 0, $page);
+        $hero = new Hero();
+        $hero->setPage($page);
+        $hero->setTitle('Home Page');
+        $hero->setSubtitle('All about the home diddly-home');
+        $manager->persist($hero);
+
+        $page = $this->addPage(
+            'Contact',
+            'This could be a contact page.'
+        );
+        $this->addNavItem($nav, 'Contact', 2, $page);
 
         $page = $this->addPage(
             'Docs',
@@ -48,11 +59,6 @@ class PageFixtures extends Fixture
         $this->addNavItem($docsSubNav, 'Docs Sub 1', 0, $page, 'fragment1');
         $this->addNavItem($docsSubNav, 'Docs Sub 2', 1, $page, 'fragment2');
 
-        $hero = new Hero();
-        $hero->setPage($page);
-        $hero->setTitle('Home Page');
-        $hero->setSubtitle('All about the home diddly-home');
-        $manager->persist($hero);
 
         $manager->flush();
     }

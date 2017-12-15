@@ -8,7 +8,7 @@ use App\Entity\Layout;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class LayoutItemDataProvider implements ItemDataProviderInterface
+final class LayoutDataProvider implements ItemDataProviderInterface
 {
     /**
      * @var ObjectRepository
@@ -16,7 +16,7 @@ final class LayoutItemDataProvider implements ItemDataProviderInterface
     private $repository;
 
     /**
-     * UserMe constructor.
+     * LayoutDataProvider constructor.
      *
      * @param EntityManagerInterface $em
      */
