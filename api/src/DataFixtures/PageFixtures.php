@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Component\Hero;
 use App\Entity\Component\Nav\Nav;
 use App\Entity\Component\Nav\NavItem;
+use App\Entity\Component\TextBlock;
 use App\Entity\Layout;
 use App\Entity\Page;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -35,23 +36,27 @@ class PageFixtures extends Fixture
         ''
     );
         $this->addNavItem($nav, 'Home', 0, $page);
-        $hero = new Hero();
-        $hero->setPage($page);
-        $hero->setTitle('Home Page');
-        $hero->setSubtitle('All about the home diddly-home');
-        $manager->persist($hero);
+        $this->addHero($page, 'Homer Page', 'Doh! That\'s a typo');
+
 
         $page = $this->addPage(
             'Contact',
             'This could be a contact page.'
         );
         $this->addNavItem($nav, 'Contact', 2, $page);
+        $this->addHero($page, 'Contactable', 'Because... why not');
+        $this->addTextBlock($page, '
+        <h1>Contact Page with text</h1>
+        <p>We may do this</p>
+        <blockquote>We may quote something too</blockquote>
+        ');
 
         $page = $this->addPage(
             'Docs',
             'Main docs page'
         );
         $docsNavItem = $this->addNavItem($nav, 'Docs', 1, $page);
+        $this->addHero($page, 'Docking around the Christmas Tree', 'Have a happy holiday');
 
         $docsSubNav = new Nav();
         $docsSubNav->setParent($docsNavItem);
@@ -88,5 +93,24 @@ class PageFixtures extends Fixture
         $this->manager->persist($page);
 
         return $page;
+    }
+
+    private function addHero(Page $page, string $title, string $subtitle = null)
+    {
+        $hero = new Hero();
+        $hero->setPage($page);
+        $hero->setTitle($title);
+        $hero->setSubtitle($subtitle);
+        $this->manager->persist($hero);
+        return $hero;
+    }
+
+    private function addTextBlock(Page $page, string $content)
+    {
+        $textBlock = new TextBlock();
+        $textBlock->setPage($page);
+        $textBlock->setContent($content);
+        $this->manager->persist($textBlock);
+        return $textBlock;
     }
 }

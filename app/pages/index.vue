@@ -1,7 +1,12 @@
 <template>
   <div class="page">
+    <component v-for="(component, index) in api.components"
+               :is="component.type"
+               :key="component.id"
+               :data="component"
+    />
+    <!--
     <bulma-hero />
-
     <div class="navbar has-shadow is-light">
       <div class="container">
         <div class="column is-paddingless">
@@ -9,7 +14,6 @@
         </div>
       </div>
     </div>
-
     <section class="section">
       <div class="container">
         <div class="columns">
@@ -22,22 +26,17 @@
         </div>
       </div>
     </section>
-
+    -->
   </div>
 </template>
 
 <script>
-  import BulmaHero from '~/components/Bulma/Hero/Hero.vue'
-  import BulmaMenu from '~/components/Bulma/Menu/Menu.vue'
-  import BulmaTabs from '~/components/Bulma/Tabs/Tabs.vue'
-  import TextBlock from '~/components/TextBlock.vue'
-
   export default {
     components: {
-      BulmaHero,
-      BulmaMenu,
-      BulmaTabs,
-      TextBlock
+      Hero: () => import('~/components/Hero/Hero.vue'),
+      Menu: () => import('~/components/Menu/Menu.vue'),
+      Tabs: () => import('~/components/Tabs/Tabs.vue'),
+      TextBlock: () => import('~/components/TextBlock.vue')
     },
     head () {
       return {

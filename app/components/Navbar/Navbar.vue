@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-transparent is-fixed-top has-shadow"
+  <nav class="navbar is-fixed-top has-shadow"
        :style="{transform: 'translateY(' + this.navY + 'px)'}"
        ref="nav"
   >

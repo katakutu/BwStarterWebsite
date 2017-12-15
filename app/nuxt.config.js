@@ -99,7 +99,7 @@ module.exports = {
     middleware: ['initErrorHandler'],
     extendRoutes (routes) {
       routes.push({
-        name: 'custom',
+        name: 'api_page',
         path: '*',
         component: '~/pages/index.vue'
       })
