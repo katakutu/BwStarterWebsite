@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <bulma-components :components="api.components" />
+    <bulma-components :depth="0" />
   </div>
 </template>
 

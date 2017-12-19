@@ -47,7 +47,7 @@ class Page
     private $components;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Route", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="App\Entity\Route", mappedBy="page", cascade={"persist", "remove"})
      * @var null|string
      */
     private $routes;

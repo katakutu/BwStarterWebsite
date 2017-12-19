@@ -3,34 +3,35 @@
 namespace App\EntityListener;
 
 use App\Entity\Page;
-use App\Entity\Route;
-use Cocur\Slugify\SlugifyInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Util\RouteGenerator;
+use Doctrine\Common\EventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 class PageListener
 {
     /**
-     * @var SlugifyInterface
+     * @var RouteGenerator
      */
-    private $slugify;
+    private $routeGenerator;
 
     public function __construct(
-        SlugifyInterface $slugify
+        RouteGenerator $routeGenerator
     )
     {
-        $this->slugify = $slugify;
+        $this->routeGenerator = $routeGenerator;
     }
 
     /**
-     * @param Page $page
      * @ORM\PrePersist()
+     * @param Page $page
+     * @param LifecycleEventArgs $event
      */
     public function prePersist (Page $page, LifecycleEventArgs $event): void
     {
-        $this->setRoute($page, $event->getEntityManager());
+        $this->createPageRoute($page, $event);
     }
 
     /**
@@ -40,38 +41,27 @@ class PageListener
      */
     public function preUpdate (Page $page, PreUpdateEventArgs $event): void
     {
-        $routeSet = $this->setRoute($page, $event->getEntityManager());
-        if ($routeSet || $event->hasChangedField('route')) {
-            $this->updateChildRoutes($page->getChildren());
-        }
+        $this->createPageRoute($page, $event);
     }
 
-    private function updateChildRoutes($children, $depth = 1) {
-
-        foreach ($children as $child) {
-
-            $this->updateChildRoutes($child->getChildren(), $depth+1);
-        }
-    }
-
-    public function setRoute(Page $page, EntityManagerInterface $em): bool
+    /**
+     * @ORM\PreFlush()
+     * @param PreFlushEventArgs $eventArgs
+     */
+    public function preFlush (Page $page, PreFlushEventArgs $eventArgs): void
     {
-        if (0 === $page->getRoutes()->count())
-        {
-            $pageRoute = $this->slugify->slugify($page->getTitle());
-            $routeParts = [$pageRoute];
-            $parent = $page;
-            while ($parent = $parent->getParent()) {
-                $routeParts[] = $parent->getRoutes()->first()->getRoute();
-            }
-            $cleanedParts = array_filter($routeParts, function($v){ return $v !== null; });
-            array_reverse($cleanedParts);
-            $route = new Route(
-                '/' . join('/', $cleanedParts),
-                $page
-            );
-            $em->persist($route);
-            $page->addRoute($route);
+        if ($this->createPageRoute($page, $eventArgs)) {
+            $em = $eventArgs->getEntityManager();
+            $pageClassMetaData = $em->getClassMetadata(Page::class);
+            $uow = $em->getUnitOfWork();
+            $uow->recomputeSingleEntityChangeSet($pageClassMetaData, $page);
+        }
+    }
+
+    private function createPageRoute(Page $page, EventArgs $event): bool
+    {
+        if (0 === $page->getRoutes()->count()) {
+            $this->routeGenerator->createPageRoute($page);
             return true;
         }
         return false;

@@ -19,11 +19,12 @@ const ApiPage = {
 
 Vue.use(ApiPage)
 
-async function fetchPage ({ app, error }, { route }) {
+async function fetchPage ({ app, error, store }, { route }) {
   const PAGE_URL = '/routes/' + route.path
   try {
     let { data } = await app.$axios.get(PAGE_URL)
-    return data
+    store.commit('page/setData', data)
+    return store.state.page.data
   } catch (err) {
     error({ statusCode: err.statusCode, message: 'Error (' + PAGE_URL + '): ' + err.message })
   }

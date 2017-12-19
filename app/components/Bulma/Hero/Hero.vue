@@ -20,15 +20,32 @@
         </div>
       </div>
     </section>
-    <nuxt-child v-if="data.nav" :components="[]" />
+    <nuxt-child v-if="data.nav"
+                :components="childComponents"
+                :depth="depth+1"
+    />
   </div>
 </template>
 
 <script>
   export default {
-    props: ['data'],
+    props: {
+      data: {
+        type: Object,
+        required: true
+      },
+      depth: {
+        type: Number,
+        required: true
+      }
+    },
     components: {
       BulmaTabs: () => import('~/components/Bulma/Tabs/Tabs.vue')
+    },
+    computed: {
+      childComponents () {
+        return this.$store.state.page.data.child.components
+      }
     }
   }
 </script>

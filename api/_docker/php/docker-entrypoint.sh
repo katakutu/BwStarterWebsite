@@ -10,6 +10,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$APP_ENV" != 'prod' ]; then
 		composer install --prefer-dist --no-progress --no-suggest --no-interaction
 		bin/console assets:install
+		bin/console app:fixtures:load
 	fi
 
 	# Permissions hack because setfacl does not work on Mac and Windows

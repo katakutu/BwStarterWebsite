@@ -3,13 +3,21 @@
     <component v-for="component in components"
                :is="name(component)"
                :key="component.id"
-               :data="component"></component>
+               :data="component"
+               :items="component.items"
+               :depth="depth"
+    />
   </div>
 </template>
 
 <script>
   export default {
-    props: ['components'],
+    props: {
+      depth: {
+        type: Number,
+        required: true
+      }
+    },
     components: {
       BulmaHero: () => import('~/components/Bulma/Hero/Hero.vue'),
       BulmaContent: () => import('~/components/Bulma/Content/Content.vue'),
@@ -18,7 +26,18 @@
     },
     methods: {
       name (component) {
-        return 'bulma-' + component.type
+        return 'bulma-' + (component.type === 'Nav' ? 'tabs' : component.type)
+      }
+    },
+    computed: {
+      components () {
+        let data = this.$store.state.page.data
+        let curDepth = this.depth
+        while (curDepth > 0) {
+          data = data.child
+          curDepth--
+        }
+        return data.components
       }
     }
   }

@@ -41,7 +41,7 @@ services:
         volumes:
             - ./api/public:/srv/api/public:ro
 
-    cache-proxy:
+    varnish:
         build:
             context: ./api
             dockerfile: ./_docker/varnish/Dockerfile
