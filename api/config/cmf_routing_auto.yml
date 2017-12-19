@@ -1,0 +1,8 @@
+App\Document\Page:
+    token_providers:
+        title: [content_method, { method: getTitle }]
+    definitions:
+         main:
+             uri_schema: /page/{title}
+             defaults:
+                 type: view

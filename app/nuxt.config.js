@@ -98,11 +98,18 @@ module.exports = {
   router: {
     middleware: ['initErrorHandler'],
     extendRoutes (routes) {
-      routes.push({
+      /*routes.push({
         name: 'api_page',
         path: '*',
-        component: '~/pages/index.vue'
-      })
+        component: '~/pages/index.vue',
+        children: [
+          {
+            path: "",
+            component: '~/pages/index.vue',
+            name: "index"
+          }
+        ]
+      })*/
     }
   }
 }

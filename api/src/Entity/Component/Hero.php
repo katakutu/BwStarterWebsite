@@ -4,6 +4,7 @@ namespace App\Entity\Component;
 
 use App\Entity\Component\Nav\Nav;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
@@ -13,18 +14,21 @@ class Hero extends BaseComponent
     /**
      * @ORM\ManyToOne(targetEntity="\App\Entity\Component\Nav\Nav")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"page"})
      * @var null|Nav
      */
     private $nav;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"page"})
      * @var null|string
      */
     private $title;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"page"})
      * @var null|string
      */
     private $subtitle;

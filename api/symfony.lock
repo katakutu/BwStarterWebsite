@@ -1,4 +1,7 @@
 {
+    "aferrandini/urlizer": {
+        "version": "1.0.0"
+    },
     "api-platform/api-pack": {
         "version": "v1.0.1"
     },
@@ -83,8 +86,23 @@
     "doctrine/orm": {
         "version": "v2.5.13"
     },
+    "doctrine/phpcr-bundle": {
+        "version": "2.0-dev"
+    },
+    "doctrine/phpcr-odm": {
+        "version": "2.0-dev"
+    },
+    "jackalope/jackalope": {
+        "version": "1.3.4"
+    },
+    "jackalope/jackalope-doctrine-dbal": {
+        "version": "1.3.1"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "jms/metadata": {
+        "version": "1.6.0"
     },
     "nelmio/cors-bundle": {
         "version": "1.5.4"
@@ -94,6 +112,12 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "phpcr/phpcr": {
+        "version": "2.1.4"
+    },
+    "phpcr/phpcr-utils": {
+        "version": "1.3.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -115,6 +139,27 @@
     },
     "psr/simple-cache": {
         "version": "1.0.0"
+    },
+    "symfony-cmf/routing": {
+        "version": "2.1-dev"
+    },
+    "symfony-cmf/routing-auto": {
+        "version": "2.0.0"
+    },
+    "symfony-cmf/routing-auto-bundle": {
+        "version": "2.1-dev"
+    },
+    "symfony-cmf/routing-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "d6774811e3ab401d483ef3b138a8066c5726b616"
+        }
+    },
+    "symfony-cmf/slugifier-api": {
+        "version": "2.0.0"
     },
     "symfony/asset": {
         "version": "v4.0.1"
@@ -190,6 +235,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/options-resolver": {
+        "version": "v3.4.2"
     },
     "symfony/orm-pack": {
         "version": "v1.0.4"

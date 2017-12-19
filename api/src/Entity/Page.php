@@ -10,11 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(itemOperations={
- *     "get"={"method"="GET", "path"="/pages/{id}", "requirements"={"id"=".+"}},
- *     "put"={"method"="PUT", "path"="/pages/{id}", "requirements"={"id"=".+"}},
- *     "delete"={"method"="DELETE", "path"="/pages/{id}", "requirements"={"id"=".+"}}
- * })
+ * @ApiResource(
+ *     itemOperations={
+ *         "get"={"method"="GET", "path"="/pages/{id}", "requirements"={"id"=".+"}},
+ *         "put"={"method"="PUT", "path"="/pages/{id}", "requirements"={"id"=".+"}},
+ *         "delete"={"method"="DELETE", "path"="/pages/{id}", "requirements"={"id"=".+"}}
+ *      },
+ *     attributes={
+ *          "normalization_context"={"groups"={"page"}}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  * @ORM\EntityListeners({"\App\EntityListener\PageListener"})
  */
@@ -24,38 +29,42 @@ class Page
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"page"})
      * @var int
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"page"})
      * @var string
      */
     private $title;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"page"})
      * @var string
      */
     private $metaDescription;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Component\BaseComponent", mappedBy="page")
+     * @Groups({"page"})
      * @var Collection
      */
     private $components;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
-     * @Groups({"layout"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Route", mappedBy="page")
      * @var null|string
      */
-    private $route;
+    private $routes;
 
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="children")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"page"})
      * @var null|Page
      */
     private $parent;
@@ -70,6 +79,7 @@ class Page
     {
         $this->components = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->routes = new ArrayCollection();
     }
 
     /**
@@ -151,35 +161,6 @@ class Page
     }
 
     /**
-     * @return string|null
-     */
-    public function getRoute(): ?string
-    {
-        return $this->route;
-    }
-
-    /**
-     * @param string|null $route
-     */
-    public function setRoute(?string $route): void
-    {
-        if (null === $route) {
-            $fullRoute = null;
-        } else {
-            $routeParts = [$route];
-            $parent = $this;
-            while ($parent = $parent->getParent()) {
-                $routeParts[] = $parent->getRoute();
-            }
-            $cleanedParts = array_filter($routeParts, function($v){ return $v !== null; });
-            array_reverse($cleanedParts);
-            $fullRoute = '/' . join('/', $cleanedParts);
-        }
-
-        $this->route = $fullRoute;
-    }
-
-    /**
      * @return Page|null
      */
     public function getParent(): ?Page
@@ -215,13 +196,55 @@ class Page
         }
     }
 
+    /**
+     * @param Page $child
+     */
     public function addChild(Page $child)
     {
         $this->children->add($child);
     }
 
+    /**
+     * @param Page $child
+     */
     public function removeChild(Page $child)
     {
         $this->children->removeElement($child);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRoutes(): Collection
+    {
+        return $this->routes;
+    }
+
+    /**
+     * @param array $routes
+     */
+    public function setRoutes(array $routes): void
+    {
+        $this->routes = new ArrayCollection();
+        foreach ($routes as $route)
+        {
+            $this->addChild($route);
+        }
+    }
+
+    /**
+     * @param Route $route
+     */
+    public function addRoute(Route $route)
+    {
+        $this->routes->add($route);
+    }
+
+    /**
+     * @param Route $route
+     */
+    public function removeRoute(Route $route)
+    {
+        $this->routes->removeElement($route);
     }
 }

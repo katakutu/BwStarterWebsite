@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <header>
-      <bulma-navbar />
+      <navbar />
     </header>
 
     <nuxt :nuxtChildKey="nuxtChildKey" />
@@ -10,11 +10,11 @@
 
 <script>
   import { compile } from '~/.nuxt/utils'
-  import BulmaNavbar from '~/components/Bulma/Navbar/Navbar.vue'
+  import Navbar from '~/components/Bulma/Navbar/Navbar.vue'
 
   export default {
     components: {
-      BulmaNavbar
+      Navbar
     },
     computed: {
       nuxtChildKey () {

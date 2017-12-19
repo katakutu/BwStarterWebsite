@@ -20,7 +20,7 @@ class Nav extends BaseComponent
     /**
      * @ORM\OneToMany(targetEntity="NavItem", mappedBy="nav")
      * @ORM\OrderBy({"sortOrder" = "ASC"})
-     * @Groups({"layout"})
+     * @Groups({"layout", "page"})
      * @var ArrayCollection
      */
     private $items;

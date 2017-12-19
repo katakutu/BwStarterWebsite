@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity()
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"nav" = "\App\Entity\Component\Nav\Nav", "hero" = "Hero", "text_block" = "TextBlock"})
+ * @ORM\DiscriminatorMap({"nav" = "\App\Entity\Component\Nav\Nav", "hero" = "Hero", "content" = "Content"})
  */
 abstract class BaseComponent
 {
@@ -21,6 +21,8 @@ abstract class BaseComponent
      * @ORM\Id()
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"page"})
+     * @var int
      */
     private $id;
 

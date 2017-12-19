@@ -13,7 +13,7 @@ class LoadFixturesCommand extends Command
     {
         $this
             ->setName('app:fixtures:load')
-            ->setDescription('Load fixutres by dropping database/schema first')
+            ->setDescription('Load fixtures by dropping database/schema first')
         ;
     }
 
@@ -31,7 +31,18 @@ class LoadFixturesCommand extends Command
         $input = new ArrayInput($arguments);
         $command->run($input, $output);
 
-        $command = $this->getApplication()->find('doctrine:fixtures:load');
+        /*$command = $this->getApplication()->find('doctrine:fixtures:load');
+        $arguments = [];
+        $input = new ArrayInput($arguments);
+        $input->setInteractive(false);
+        $command->run($input, $output);*/
+
+        $command = $this->getApplication()->find('doctrine:phpcr:repository:init');
+        $arguments = [];
+        $input = new ArrayInput($arguments);
+        $command->run($input, $output);
+
+        $command = $this->getApplication()->find('doctrine:phpcr:fixtures:load');
         $arguments = [];
         $input = new ArrayInput($arguments);
         $input->setInteractive(false);

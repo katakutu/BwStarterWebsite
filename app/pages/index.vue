@@ -3,10 +3,8 @@
     <component v-for="(component, index) in api.components"
                :is="component.type"
                :key="component.id"
-               :data="component"
-    />
+               :data="component"></component>
     <!--
-    <bulma-hero />
     <div class="navbar has-shadow is-light">
       <div class="container">
         <div class="column is-paddingless">
@@ -33,10 +31,10 @@
 <script>
   export default {
     components: {
-      Hero: () => import('~/components/Hero/Hero.vue'),
-      Menu: () => import('~/components/Menu/Menu.vue'),
-      Tabs: () => import('~/components/Tabs/Tabs.vue'),
-      TextBlock: () => import('~/components/TextBlock.vue')
+      Hero: () => import('~/components/Bulma/Hero/Hero.vue'),
+      Content: () => import('~/components/Bulma/Content/Content.vue'),
+      Menu: () => import('~/components/Bulma/Menu/Menu.vue'),
+      Tabs: () => import('~/components/Bulma/Tabs/Tabs.vue')
     },
     head () {
       return {

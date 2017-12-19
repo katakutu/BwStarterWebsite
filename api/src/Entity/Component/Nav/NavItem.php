@@ -4,6 +4,7 @@ namespace App\Entity\Component\Nav;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Page;
+use App\Entity\Route;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -28,37 +29,37 @@ class NavItem
     private $nav;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\App\Entity\Page")
-     * @ORM\JoinColumn(fieldName="page_id", referencedColumnName="id", nullable=true)
-     * @Groups({"layout"})
-     * @var null|Page
+     * @ORM\ManyToOne(targetEntity="\App\Entity\Route")
+     * @ORM\JoinColumn(referencedColumnName="route", nullable=true)
+     * @Groups({"layout", "page"})
+     * @var null|Route
      */
-    private $page;
+    private $route;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Groups({"layout"})
+     * @Groups({"layout", "page"})
      * @var null|string
      */
     private $fragment;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"layout"})
+     * @Groups({"layout", "page"})
      * @var int
      */
     private $sortOrder;
 
     /**
      * @ORM\OneToOne(targetEntity="Nav", mappedBy="parent")
-     * @Groups({"layout"})
+     * @Groups({"layout", "page"})
      * @var null|Nav
      */
     private $child;
 
     /**
      * @ORM\Column(type="string")
-     * @Groups({"layout"})
+     * @Groups({"layout", "page"})
      * @var string
      */
     private $label;
@@ -96,19 +97,19 @@ class NavItem
     }
 
     /**
-     * @return null|Page
+     * @return null|Route
      */
-    public function getPage(): ?Page
+    public function getRoute(): ?Route
     {
-        return $this->page;
+        return $this->route;
     }
 
     /**
-     * @param null|Page $page
+     * @param null|Route $route
      */
-    public function setPage(Page $page = null): void
+    public function setRoute(Route $route = null): void
     {
-        $this->page = $page;
+        $this->route = $route;
     }
 
     /**

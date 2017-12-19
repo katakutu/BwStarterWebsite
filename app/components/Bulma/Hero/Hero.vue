@@ -22,7 +22,7 @@
   export default {
     props: ['data'],
     components: {
-      BulmaTabs: () => import('~/components/Tabs/Tabs.vue')
+      BulmaTabs: () => import('~/components/Bulma/Tabs/Tabs.vue')
     }
   }
 </script>

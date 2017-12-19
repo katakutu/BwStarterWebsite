@@ -3,14 +3,16 @@
 namespace App\Entity\Component;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity()
  */
-class TextBlock extends BaseComponent
+class Content extends BaseComponent
 {
     /**
      * @ORM\Column(type="text")
+     * @Groups({"page"})
      * @var string
      */
     private $content;

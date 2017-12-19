@@ -5,12 +5,14 @@ namespace App\DataFixtures;
 use App\Entity\Component\Hero;
 use App\Entity\Component\Nav\Nav;
 use App\Entity\Component\Nav\NavItem;
-use App\Entity\Component\TextBlock;
+use App\Entity\Component\Content;
 use App\Entity\Layout;
 use App\Entity\Page;
+use App\Entity\Route;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use  Doctrine\Common\DataFixtures\Purger;
+use Doctrine\Common\DataFixtures\Purger;
+
 class PageFixtures extends Fixture
 {
     /**
@@ -33,11 +35,10 @@ class PageFixtures extends Fixture
         $page = $this->addPage(
         'Home Page',
         'Welcome to the BW Starter Website built with the best and latest frameworks. Front-end uses NuxtJS (VueJS) and Bulma. The API uses API Platform (Symfony 4).',
-        ''
+        '/'
     );
         $this->addNavItem($nav, 'Home', 0, $page);
-        $this->addHero($page, 'Homer Page', 'Doh! That\'s a typo');
-
+        $homeHero = $this->addHero($page, 'Homer Page', 'Doh! That\'s a typo');
 
         $page = $this->addPage(
             'Contact',
@@ -45,7 +46,7 @@ class PageFixtures extends Fixture
         );
         $this->addNavItem($nav, 'Contact', 2, $page);
         $this->addHero($page, 'Contactable', 'Because... why not');
-        $this->addTextBlock($page, '
+        $this->addContent($page, '
         <h1>Contact Page with text</h1>
         <p>We may do this</p>
         <blockquote>We may quote something too</blockquote>
@@ -61,9 +62,20 @@ class PageFixtures extends Fixture
         $docsSubNav = new Nav();
         $docsSubNav->setParent($docsNavItem);
         $manager->persist($docsSubNav);
-        $this->addNavItem($docsSubNav, 'Docs Sub 1', 0, $page, 'fragment1');
-        $this->addNavItem($docsSubNav, 'Docs Sub 2', 1, $page, 'fragment2');
 
+        $docSubPage = $this->addPage(
+            'Overview',
+            'Overview Docs Page'
+        );
+        $docSubPage->setParent($page);
+        $this->addNavItem($docsSubNav, 'Docs Overview', 0, $docSubPage);
+        $this->addNavItem($docsSubNav, 'Docs Sub 1', 1, $docSubPage, 'fragment1');
+        $this->addNavItem($docsSubNav, 'Docs Sub 2', 2, $docSubPage, 'fragment2');
+
+        $heroNav = new Nav();
+        $manager->persist($heroNav);
+        $this->addNavItem($heroNav, 'Docs', 1, $page);
+        $homeHero->setNav($heroNav);
 
         $manager->flush();
     }
@@ -74,7 +86,7 @@ class PageFixtures extends Fixture
         $navItem = new NavItem();
         $navItem->setLabel($navLabel);
         $navItem->setSortOrder($order);
-        $navItem->setPage($page);
+        $navItem->setRoute($page->getRoutes()->first());
         $navItem->setFragment($fragment);
 
         $nav->addItem($navItem);
@@ -88,7 +100,14 @@ class PageFixtures extends Fixture
         $page = new Page();
         $page->setTitle($title);
         $page->setMetaDescription($description);
-        $page->setRoute($route);
+        if (null !== $route) {
+            $route = new Route(
+                $route,
+                $page
+            );
+            $this->manager->persist($route);
+            $page->addRoute($route);
+        }
 
         $this->manager->persist($page);
 
@@ -105,9 +124,9 @@ class PageFixtures extends Fixture
         return $hero;
     }
 
-    private function addTextBlock(Page $page, string $content)
+    private function addContent(Page $page, string $content)
     {
-        $textBlock = new TextBlock();
+        $textBlock = new Content();
         $textBlock->setPage($page);
         $textBlock->setContent($content);
         $this->manager->persist($textBlock);
