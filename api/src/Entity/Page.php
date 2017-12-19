@@ -10,16 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource(
- *     itemOperations={
- *         "get"={"method"="GET", "path"="/pages/{id}", "requirements"={"id"=".+"}},
- *         "put"={"method"="PUT", "path"="/pages/{id}", "requirements"={"id"=".+"}},
- *         "delete"={"method"="DELETE", "path"="/pages/{id}", "requirements"={"id"=".+"}}
- *      },
- *     attributes={
- *          "normalization_context"={"groups"={"page"}}
- *     }
- * )
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  * @ORM\EntityListeners({"\App\EntityListener\PageListener"})
  */

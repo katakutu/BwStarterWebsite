@@ -1,34 +1,26 @@
 <template>
   <nav class="tabs" :class="this.classModifiers">
     <ul>
-      <li>
-        <a href="/documentation/overview/start/">Overview</a>
-      </li>
-      <li>
-        <a href="https://bulma.io/documentation/modifiers/syntax">Modifiers</a>
-      </li>
-      <li>
-        <a href="https://bulma.io/documentation/columns/basics">Columns</a>
-      </li>
-      <li>
-        <a href="https://bulma.io/documentation/layout/container/">Layout</a>
-      </li>
-      <li>
-        <a href="https://bulma.io/documentation/form/general">Form</a>
-      </li>
-      <li>
-        <a href="https://bulma.io/documentation/elements/box/">Elements</a>
-      </li>
-      <li class="is-active">
-        <a href="https://bulma.io/documentation/components/breadcrumb/">Components</a>
-      </li>
+      <bulma-tab-item v-for="(item, index) in items"
+                      :key="index"
+                      :item="item"
+      />
     </ul>
   </nav>
 </template>
 
 <script>
+  import BulmaTabItem from './TabItem'
+
   export default {
+    components: {
+      BulmaTabItem
+    },
     props: {
+      items: {
+        type: Array,
+        required: true
+      },
       align: {
         type: String,
         default: null,

@@ -20,7 +20,7 @@ const ApiPage = {
 Vue.use(ApiPage)
 
 async function fetchPage ({ app, error }, { route }) {
-  const PAGE_URL = '/pages/' + route.path
+  const PAGE_URL = '/routes/' + route.path
   try {
     let { data } = await app.$axios.get(PAGE_URL)
     return data

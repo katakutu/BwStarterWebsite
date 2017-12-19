@@ -66,6 +66,7 @@ abstract class BaseComponent
 
     /**
      * @return string
+     * @Groups({"route", "page"})
      */
     public function getType()
     {

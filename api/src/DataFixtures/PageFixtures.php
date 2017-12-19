@@ -38,7 +38,7 @@ class PageFixtures extends Fixture
         '/'
     );
         $this->addNavItem($nav, 'Home', 0, $page);
-        $homeHero = $this->addHero($page, 'Homer Page', 'Doh! That\'s a typo');
+        $this->addHero($page, 'Homer Page', 'Doh! That\'s a typo');
 
         $page = $this->addPage(
             'Contact',
@@ -57,7 +57,7 @@ class PageFixtures extends Fixture
             'Main docs page'
         );
         $docsNavItem = $this->addNavItem($nav, 'Docs', 1, $page);
-        $this->addHero($page, 'Docking around the Christmas Tree', 'Have a happy holiday');
+        $docsHero = $this->addHero($page, 'Docking around the Christmas Tree', 'Have a happy holiday');
 
         $docsSubNav = new Nav();
         $docsSubNav->setParent($docsNavItem);
@@ -74,8 +74,8 @@ class PageFixtures extends Fixture
 
         $heroNav = new Nav();
         $manager->persist($heroNav);
-        $this->addNavItem($heroNav, 'Docs', 1, $page);
-        $homeHero->setNav($heroNav);
+        $this->addNavItem($heroNav, 'Docs', 0, $page);
+        $docsHero->setNav($heroNav);
 
         $manager->flush();
     }
