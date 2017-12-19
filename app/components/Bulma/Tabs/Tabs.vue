@@ -1,20 +1,24 @@
 <template>
-  <nav class="tabs" :class="this.classModifiers">
-    <ul>
-      <bulma-tab-item v-for="(item, index) in items"
-                      :key="index"
-                      :item="item"
-      />
-    </ul>
-  </nav>
+  <component is="page-wrapper" :wrap="wrap">
+    <nav class="tabs" :class="this.classModifiers">
+      <ul>
+        <bulma-tab-item v-for="(item, index) in items"
+                        :key="index"
+                        :item="item"
+        />
+      </ul>
+    </nav>
+  </component>
 </template>
 
 <script>
   import BulmaTabItem from './TabItem'
+  import PageWrapper from './TabPageWrapper'
 
   export default {
     components: {
-      BulmaTabItem
+      BulmaTabItem,
+      PageWrapper
     },
     props: {
       items: {
@@ -45,6 +49,9 @@
       fullwidth: {
         type: Boolean,
         default: false
+      },
+      wrap: {
+        type: Boolean
       }
     },
     methods: {

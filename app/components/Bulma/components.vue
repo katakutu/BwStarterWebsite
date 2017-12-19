@@ -6,6 +6,7 @@
                :data="component"
                :items="component.items"
                :depth="depth"
+               :wrap="true"
     />
   </div>
 </template>

@@ -28,24 +28,18 @@
 </template>
 
 <script>
+  import NuxtChildMixin from '~/components/_mixins/nuxtChild.js'
+
   export default {
+    mixins: [NuxtChildMixin],
     props: {
       data: {
         type: Object,
-        required: true
-      },
-      depth: {
-        type: Number,
         required: true
       }
     },
     components: {
       BulmaTabs: () => import('~/components/Bulma/Tabs/Tabs.vue')
-    },
-    computed: {
-      childComponents () {
-        return this.$store.state.page.data.child.components
-      }
     }
   }
 </script>
