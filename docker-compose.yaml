@@ -9,7 +9,9 @@ services:
             MYSQL_USER: bwstarter
             MYSQL_PASSWORD: password
         volumes:
-            - db-data:/var/lib/mysql/data
+            - db-mysql:/var/lib/mysql:rw
+            # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+            # - ./docker/db/data:/var/lib/mysql:rw
         ports:
             - "4306:3306"
 
@@ -67,4 +69,4 @@ services:
             - "80:3000"
 
 volumes:
-    db-data: {}
+    db-mysql: {}

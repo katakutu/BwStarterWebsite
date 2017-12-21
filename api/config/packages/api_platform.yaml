@@ -5,9 +5,9 @@ api_platform:
     description: 'API for the front-end web application'
     version: 1.0.0-dev
     http_cache:
-        #invalidation:
-        #    enabled: true
-        #    varnish_urls: ['%env(VARNISH_URL)%']
+        invalidation:
+            enabled: true
+            varnish_urls: ['%env(VARNISH_URL)%']
         max_age: 0
         shared_max_age: 3600
         vary: ['Content-Type', 'Authorization']

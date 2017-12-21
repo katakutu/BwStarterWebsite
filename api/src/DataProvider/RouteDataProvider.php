@@ -4,26 +4,27 @@ namespace App\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
+use ApiPlatform\Core\Exception\RuntimeException;
 use App\Entity\Page;
 use App\Entity\Route;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 final class RouteDataProvider implements ItemDataProviderInterface
 {
     /**
      * @var ObjectRepository
      */
-    private $repository;
+    private $managerRegistry;
 
     /**
      * LayoutDataProvider constructor.
      *
-     * @param EntityManagerInterface $em
+     * @param ManagerRegistry $managerRegistry
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        $this->repository = $em->getRepository(Route::class);
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -37,14 +38,24 @@ final class RouteDataProvider implements ItemDataProviderInterface
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
     {
+        $manager = $this->managerRegistry->getManagerForClass($resourceClass);
+        if (null === $manager) {
+            throw new ResourceClassNotSupportedException();
+        }
+
         if (Route::class !== $resourceClass) {
             throw new ResourceClassNotSupportedException();
+        }
+
+        $repository = $manager->getRepository($resourceClass);
+        if (!method_exists($repository, 'createQueryBuilder')) {
+            throw new RuntimeException('The repository class must have a "createQueryBuilder" method.');
         }
 
         /**
          * @var null|Route $page
          */
-        $page = $this->repository->find($id);
+        $page = $repository->find($id);
         if ($page) {
             $page = $page->getPage();
         }

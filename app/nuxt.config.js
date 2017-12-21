@@ -97,19 +97,31 @@ module.exports = {
    */
   router: {
     middleware: ['initErrorHandler'],
-    extendRoutes (routes) {
-      /*routes.push({
-        name: 'api_page',
-        path: '*',
-        component: '~/pages/index.vue',
-        children: [
-          {
-            path: "",
-            component: '~/pages/index.vue',
-            name: "index"
-          }
-        ]
-      })*/
+    extendRoutes () {
+      /*const PAGE = '~/pages/_page/index.vue'
+      const SUB_PAGE = PAGE // '~/pages/_page/index/_subpage.vue'
+
+      let children = [
+        {
+          path: ":2?",
+          component: SUB_PAGE
+        }
+      ]
+
+      return [
+        {
+          path: "/:1",
+          component: PAGE,
+          name: "0",
+          children: children
+        },
+        {
+          path: "/",
+          component: PAGE,
+          name: "index",
+          children: children
+        }
+      ]*/
     }
   }
 }

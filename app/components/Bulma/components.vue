@@ -1,21 +1,19 @@
 <template>
   <div class="bulma-components">
-    <component v-for="component in components"
+    <component v-for="component in _components"
                :is="name(component)"
                :key="component.id"
                :data="component"
-               :items="component.items"
-               :depth="depth"
                :wrap="true"
-    />
+    ></component>
   </div>
 </template>
 
 <script>
   export default {
     props: {
-      depth: {
-        type: Number,
+      pageData: {
+        type: Object,
         required: true
       }
     },
@@ -31,14 +29,8 @@
       }
     },
     computed: {
-      components () {
-        let data = this.$store.state.page.data
-        let curDepth = this.depth
-        while (curDepth > 0) {
-          data = data.child
-          curDepth--
-        }
-        return data.components
+      _components () {
+        return this.pageData.components
       }
     }
   }

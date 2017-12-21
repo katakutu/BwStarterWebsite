@@ -20,18 +20,12 @@
         </div>
       </div>
     </section>
-    <nuxt-child v-if="data.nav"
-                :components="childComponents"
-                :depth="depth+1"
-    />
+    <nuxt-child v-if="data.nav" />
   </div>
 </template>
 
 <script>
-  import NuxtChildMixin from '~/components/_mixins/nuxtChild.js'
-
   export default {
-    mixins: [NuxtChildMixin],
     props: {
       data: {
         type: Object,

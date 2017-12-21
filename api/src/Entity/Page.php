@@ -55,7 +55,6 @@ class Page
     /**
      * @ORM\ManyToOne(targetEntity="Page", inversedBy="children")
      * @ORM\JoinColumn(nullable=true)
-     * @Groups({"page"})
      * @var null|Page
      */
     private $parent;
@@ -74,9 +73,9 @@ class Page
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

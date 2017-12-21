@@ -7,9 +7,6 @@
         </div>
       </div>
     </div>
-    <nuxt-child :components="childComponents"
-                :depth="depth+1"
-    />
   </div>
   <div v-else>
     <slot></slot>
@@ -17,10 +14,7 @@
 </template>
 
 <script>
-  import NuxtChildMixin from '~/components/_mixins/nuxtChild.js'
-
   export default {
-    mixins: [NuxtChildMixin],
     props: {
       wrap: {
         type: Boolean,

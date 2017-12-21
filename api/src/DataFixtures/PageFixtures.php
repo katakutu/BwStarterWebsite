@@ -70,6 +70,10 @@ class PageFixtures extends Fixture
             'Main docs page'
         );
         $docsHero = $this->addHero($page, 'Docking around the Christmas Tree', 'Have a happy holiday');
+        $this->addContent($page, '
+        <h1>Docs initial page (no deeper child pages)</h1>
+        ');
+        $docsNavItem = $this->addNavItem($layoutNav, 'Docs', 1, $page);
 
         /**
          * DOCS OVERVIEW
@@ -80,7 +84,6 @@ class PageFixtures extends Fixture
             null,
             $page
         );
-        $docsNavItem = $this->addNavItem($layoutNav, 'Docs', 1, $docSubPage);
 
         /**
          * DOCS HERO NAV

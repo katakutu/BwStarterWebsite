@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *          "normalization_context"={"groups"={"layout"}}
  *     }
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\LayoutRepository")
  */
 class Layout
 {

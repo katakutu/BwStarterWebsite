@@ -1,8 +1,9 @@
 <template>
-  <component is="page-wrapper" :wrap="wrap">
+  <component is="page-wrapper"
+             :wrap="wrap">
     <nav class="tabs" :class="this.classModifiers">
       <ul>
-        <bulma-tab-item v-for="(item, index) in items"
+        <bulma-tab-item v-for="(item, index) in _items"
                         :key="index"
                         :item="item"
         />
@@ -23,7 +24,11 @@
     props: {
       items: {
         type: Array,
-        required: true
+        required: false
+      },
+      data: {
+        type: Object,
+        required: false
       },
       align: {
         type: String,
@@ -54,6 +59,20 @@
         type: Boolean
       }
     },
+    computed: {
+      classModifiers () {
+        return [
+          this.isser(this.align),
+          this.isser(this.size),
+          this.isser(this.styleClassFixer(this._style)),
+          this.isser(this.fullwidthClassFixer(this.fullwidth))
+        ]
+      },
+      _items () {
+        let items = this.data ? this.data.items : this.items
+        return items || []
+      }
+    },
     methods: {
       isser (values) {
         if (!values) {
@@ -76,19 +95,6 @@
       fullwidthClassFixer (cls) {
         return cls ? 'fullwidth' : false
       }
-    },
-    computed: {
-      classModifiers () {
-        return [
-          this.isser(this.align),
-          this.isser(this.size),
-          this.isser(this.styleClassFixer(this._style)),
-          this.isser(this.fullwidthClassFixer(this.fullwidth))
-        ]
-      }
-    },
-    data () {
-      return {}
     }
   }
 </script>

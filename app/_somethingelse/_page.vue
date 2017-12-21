@@ -1,6 +1,8 @@
 <template>
   <div class="sub-page">
-    <bulma-components :depth="depth" />
+    <bulma-components :depth="depth"
+                      :components="components"
+    />
   </div>
 </template>
 
@@ -12,16 +14,16 @@
       BulmaComponents
     },
     props: {
+      components: {
+        type: Array
+      },
       depth: {
         type: Number,
         required: true
       }
     },
-    async asyncData ({ app, route, isClient }) {
-      if (isClient) {
-        await app.$getPage({ route })
-      }
-      return {}
+    beforeCreate () {
+      this.$emit('sub-page')
     }
   }
 </script>
