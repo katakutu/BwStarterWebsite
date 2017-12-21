@@ -17,8 +17,8 @@ const ApiPage = {
 }
 Vue.use(ApiPage)
 
-async function fetchPage ({ app, error }, { path }) {
-  const PAGE_URL = '/routes/' + path
+async function fetchPage ({ app, error }, { path, prefix }) {
+  const PAGE_URL = prefix + path
   try {
     let { data } = await app.$axios.get(PAGE_URL)
     return data
@@ -28,8 +28,12 @@ async function fetchPage ({ app, error }, { path }) {
 }
 
 export default (ctx, inject) => {
-  ctx.$getPage = (payload) => {
-    return fetchPage(ctx, payload)
+  const F = (prefix) => (payload) => {
+    return fetchPage(ctx, {...payload, prefix})
   }
-  inject('getPage', ctx.$getPage)
+  ctx.$getRoutePages = F('/routes/')
+  inject('getRoutePages', F('/routes/'))
+
+  ctx.$getPage = F('')
+  inject('getPage', F(''))
 }

@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "delete"={"method"="DELETE", "path"="/routes/{id}", "requirements"={"id"=".+"}}
  *      },
  *     attributes={
- *          "normalization_context"={"groups"={"page"}}
+ *          "normalization_context"={"groups"={"route"}}
  *     }
  * )
  */

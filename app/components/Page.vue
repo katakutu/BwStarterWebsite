@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <bulma-components :pageData="pageData" />
+    <bulma-components v-if="pageData" :pageData="pageData" />
   </div>
 </template>
 
@@ -30,13 +30,13 @@
 
     computed: {
       pageData () {
-        return this.$store.state.page.data[this.depth] || {}
+        return this.$store.getters['page/getPageByDepth'](this.depth)
       },
       title () {
-        return this.pageData.title
+        return this.pageData ? this.pageData.title : null
       },
       metaDescription () {
-        return this.pageData.metaDescription
+        return this.pageData ? this.pageData.metaDescription : null
       }
     }
   }

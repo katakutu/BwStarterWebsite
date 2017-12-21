@@ -10,7 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={
+ *          "normalization_context"={"groups"={"page"}}
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  * @ORM\EntityListeners({"\App\EntityListener\PageListener"})
  */
@@ -20,7 +24,7 @@ class Page
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"page"})
+     * @Groups({"page", "route"})
      * @var int
      */
     private $id;

@@ -96,7 +96,7 @@ module.exports = {
    * Router
    */
   router: {
-    middleware: ['initErrorHandler'],
+    middleware: ['initErrorHandler', 'pageSetter'],
     extendRoutes () {
       /*const PAGE = '~/pages/_page/index.vue'
       const SUB_PAGE = PAGE // '~/pages/_page/index/_subpage.vue'

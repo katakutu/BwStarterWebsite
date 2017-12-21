@@ -5,7 +5,6 @@ namespace App\DataProvider;
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotSupportedException;
 use ApiPlatform\Core\Exception\RuntimeException;
-use App\Entity\Page;
 use App\Entity\Route;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -33,7 +32,7 @@ final class RouteDataProvider implements ItemDataProviderInterface
      * @param string|null $operationName
      * @param array       $context
      *
-     * @return Page|null
+     * @return array|null
      * @throws ResourceClassNotSupportedException
      */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
@@ -53,12 +52,19 @@ final class RouteDataProvider implements ItemDataProviderInterface
         }
 
         /**
-         * @var null|Route $page
+         * @var null|Route $route
          */
-        $page = $repository->find($id);
-        if ($page) {
-            $page = $page->getPage();
+        $route = $repository->find($id);
+        if (!$route) {
+            return null;
         }
-        return $page;
+
+        $page = $route->getPage();
+        $collection = [$page];
+        while($parent = $page->getParent()) {
+            array_unshift($collection, $parent);
+            $page = $parent;
+        }
+        return $collection;
     }
 }

@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "helmet": "^3.9.0",
     "lodash": "^4.17.4",
+    "lru-cache": "^4.1.1",
     "node-sass": "^4.7.2",
     "nuxt": "^1.0.0-rc11",
     "sass-loader": "^6.0.6",
