@@ -111,3 +111,25 @@
     }
   }
 </script>
+
+<style lang="sass">
+  @import assets/css/_vars.sass
+
+  .navbar.has-shadow
+    .tabs
+      &:not(.is-boxed):not(.is-toggle)
+        > ul
+          border: 0
+        li
+          a
+            margin-bottom: 0
+            min-height: $navbar-height
+            border-bottom-color: transparent
+            &:hover
+              color: $primary
+              border-color: $primary
+          &.is-active
+            a
+              border-bottom-width: 2px
+              border-color: $primary
+</style>

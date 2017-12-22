@@ -25,7 +25,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async FETCH_DEPTH_DATA ({ state, commit, dispatch }, { route }) {
+  async FETCH_DEPTH_DATA ({ state, commit, dispatch, getters }, { route, depth }) {
     let path = compile(route.path)(route.params) || '/'
     let data = await this.$getRoutePages({ path: path })
     data = data['hydra:member']
@@ -33,6 +33,7 @@ export const actions = {
     await dispatch('FETCH_PAGES', {
       ids: state.depthIds
     })
+    return getters.getPageByDepth(depth)
   },
 
   async FETCH_PAGES ({ state, dispatch }, { ids }) {
@@ -56,7 +57,6 @@ export const actions = {
   },
 
   async FETCH_PAGE ({ commit }, path) {
-    console.log(path)
     let data = await this.$getPage({ path })
     data.__lastUpdated = Date.now()
     return commit('SET_PAGE', { path, data })

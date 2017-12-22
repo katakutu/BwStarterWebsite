@@ -3,7 +3,7 @@
     <header>
       <bulma-navbar />
     </header>
-    <nuxt nuxt-child-key="none" />
+    <nuxt />
   </div>
 </template>
 
@@ -26,4 +26,34 @@
   }
 </script>
 
-<style src="~/assets/css/layouts/default.sass" lang="sass" />
+<style lang="sass">
+  @import assets/css/_vars.sass
+
+  body,
+  html
+    height: 100%
+
+  a
+    transition: color .25s, border-color .25s
+
+  .appear-active
+    transition: opacity .4s ease
+  .page-enter-active, .page-leave-active
+    transition: all .2s ease
+  .appear, .page-enter, .page-leave-active
+    opacity: 0
+
+  =selection
+    color: $white
+    background: $primary
+
+  ::selection
+    +selection
+
+  ::-moz-selection
+    +selection
+
+  .logo
+    width: auto
+    height: 28px
+</style>

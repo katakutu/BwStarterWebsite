@@ -1,7 +1,5 @@
 <template>
-  <div class="index">
-    <bulma-components v-if="pageData" :pageData="pageData" />
-  </div>
+  <bulma-components v-if="pageData" :pageData="pageData" />
 </template>
 
 <script>
@@ -16,6 +14,9 @@
       depth: {
         type: Number,
         required: true
+      },
+      pageData: {
+        type: Object
       }
     },
 
@@ -28,10 +29,20 @@
       }
     },
 
+    async beforeMount () {
+      if (this.$root._isMounted) {
+        console.log('before mount, root is mounted')
+      } else {
+        console.log('before mount, root is not mounted')
+      }
+    },
+
     computed: {
+      /*
       pageData () {
         return this.$store.getters['page/getPageByDepth'](this.depth)
       },
+      */
       title () {
         return this.pageData ? this.pageData.title : null
       },

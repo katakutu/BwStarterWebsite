@@ -36,3 +36,11 @@
     </aside>
   </div>
 </template>
+
+<style lang="sass">
+  @import assets/css/_vars.sass
+
+  aside.menu
+    padding: .75rem
+    border-right: 2px solid $grey-lighter
+</style>
