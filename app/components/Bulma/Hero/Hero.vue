@@ -20,7 +20,7 @@
         </div>
       </div>
     </section>
-    <nuxt-child v-if="data.nav" />
+    <nuxt-child v-if="data.nav" :key="childId" />
   </div>
 </template>
 
@@ -30,10 +30,22 @@
       data: {
         type: Object,
         required: true
+      },
+      depth: {
+        type: Number,
+        required: true
       }
     },
     components: {
       BulmaTabs: () => import('~/components/Bulma/Tabs/Tabs.vue')
+    },
+    computed: {
+      childId () {
+        return this.childPage ? this.childPage.id : 0
+      },
+      childPage () {
+        return this.$store.getters['page/getPageByDepth'](this.depth + 1)
+      }
     }
   }
 </script>

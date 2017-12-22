@@ -115,6 +115,10 @@
 <style lang="sass">
   @import assets/css/_vars.sass
 
+  .logo
+    width: auto
+    height: 28px
+
   .navbar.has-shadow
     .tabs
       &:not(.is-boxed):not(.is-toggle)

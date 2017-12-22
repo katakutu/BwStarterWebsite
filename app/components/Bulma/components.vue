@@ -5,6 +5,7 @@
                :key="component.id"
                :data="component"
                :wrap="true"
+               :depth="depth"
     ></component>
   </div>
 </template>
@@ -14,6 +15,10 @@
     props: {
       pageData: {
         type: Object,
+        required: true
+      },
+      depth: {
+        type: Number,
         required: true
       }
     },

@@ -14,10 +14,12 @@ export const getters = {
 
 export const mutations = {
   SET_DEPTH_IDS: (state, { data }) => {
-    state.depthIds = []
-    data.forEach((val) => {
-      state.depthIds.push(val['@id'])
-    })
+    if (Array.isArray(data)) {
+      state.depthIds = []
+      data.forEach((val) => {
+        state.depthIds.push(val['@id'])
+      })
+    }
   },
   SET_PAGE: (state, { path, data }) => {
     Vue.set(state.pages, path, data)
@@ -25,27 +27,21 @@ export const mutations = {
 }
 
 export const actions = {
-  async FETCH_DEPTH_DATA ({ state, commit, dispatch, getters }, { route, depth }) {
+  async FETCH_DEPTH_DATA ({ state, commit, dispatch, getters }, { depth, route }) {
     let path = compile(route.path)(route.params) || '/'
-    let data = await this.$getRoutePages({ path: path })
-    data = data['hydra:member']
-    await commit('SET_DEPTH_IDS', { data })
-    await dispatch('FETCH_PAGES', {
-      ids: state.depthIds
-    })
-    return getters.getPageByDepth(depth)
+    await this.$getRoutePages({ path: path })
   },
 
   async FETCH_PAGES ({ state, dispatch }, { ids }) {
     // on the client, the store itself serves as a cache.
-    // only fetch items that we do not already have, or has expired (2 minutes)
+    // only fetch items that we do not already have, or has expired (15 seconds)
     const now = Date.now()
     ids = ids.filter(id => {
       const item = state.pages[id]
       if (!item) {
         return true
       }
-      return (now - item.__lastUpdated) > (1000 * 60 * 2)
+      return (now - item.__lastUpdated) > (1000 * 15)
     })
     if (ids.length) {
       await dispatch('FETCH_ITEMS', ids)

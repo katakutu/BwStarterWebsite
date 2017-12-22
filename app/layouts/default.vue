@@ -34,7 +34,7 @@
     height: 100%
 
   a
-    transition: color .25s, border-color .25s
+    transition: color .25s, border .25s, background-color .25s
 
   .appear-active
     transition: opacity .4s ease
@@ -52,8 +52,4 @@
 
   ::-moz-selection
     +selection
-
-  .logo
-    width: auto
-    height: 28px
 </style>

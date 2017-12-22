@@ -70,9 +70,6 @@ class PageFixtures extends Fixture
             'Main docs page'
         );
         $docsHero = $this->addHero($page, 'Docking around the Christmas Tree', 'Have a happy holiday');
-        $this->addContent($page, '
-        <h1>Docs initial page (no deeper child pages)</h1>
-        ');
         $docsNavItem = $this->addNavItem($layoutNav, 'Docs', 1, $page);
 
         /**
@@ -103,16 +100,23 @@ class PageFixtures extends Fixture
         $this->addNavItem($pageTabs, 'Tab 1', 0, $docSubPage, 'tab1');
         $this->addNavItem($pageTabs, 'Tab 2', 1, $docSubPage, 'tab2');
         $docSubPage->addComponent($pageTabs);
+        $manager->flush();
+        $this->addContent($docSubPage, '
+        <h1>The Overview</h1>
+        ');
 
         /**
          * DOCS UNDERVIEW
          */
         $docUPage = $this->addPage(
-            'Underview',
-            'Underview Docs Page',
+            'Doc Underview',
+            'Docs Underview Page',
             null,
             $page
         );
+        $this->addContent($docUPage, '
+          <h1>The Underview</h1>
+        ');
         $this->addNavItem($docsSubNav, 'Docs Under Sub 1', 1, $docUPage, 'fragment1');
         $this->addNavItem($docsSubNav, 'Docs Under Sub 2', 2, $docUPage, 'fragment2');
         $this->addNavItem($heroNav, 'Underview', null, $docUPage);
@@ -177,6 +181,7 @@ class PageFixtures extends Fixture
         $textBlock = new Content();
         $textBlock->setPage($page);
         $textBlock->setContent($content);
+        $page->addComponent($textBlock);
         $this->manager->persist($textBlock);
         return $textBlock;
     }
